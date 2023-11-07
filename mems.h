@@ -15,12 +15,14 @@ REFER DOCUMENTATION FOR MORE DETAILS ON FUNSTIONS AND THEIR FUNCTIONALITY
 #include <sys/mman.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <errno.h>
 
 /*
 Use this macro where ever you need PAGE_SIZE.
 As PAGESIZE can differ system to system we should have flexibility to modify this 
 macro to make the output of all system same and conduct a fair evaluation. 
 */
+
 #define PAGE_SIZE 4096
 
 
@@ -168,7 +170,10 @@ void mems_finish(){
             // printf("%p\n", start);
             // printf("%ld\n", len);
 
-            // munmap(start, len);
+            // if (munmap(start, len) == -1) {
+            //     perror("Error in munmap");
+            //     return;
+            // }
 
             // printf("ssss\n");
         }
@@ -176,12 +181,22 @@ void mems_finish(){
         while (currentsub != NULL) {
             SubChainNode *temp = currentsub;
             currentsub = currentsub->next;
-            munmap(temp, sizeof(SubChainNode));
+            if (munmap(temp, sizeof(SubChainNode)) == -1) {
+                printf("\n");
+                perror("Error in munmap.");
+                printf("\n");
+                return;
+            }
             
         }
         MainChainNode *temp_node = current_node;
         current_node = current_node->next;
-        munmap(temp_node, sizeof(MainChainNode));
+        if ( munmap(temp_node, sizeof(MainChainNode)) == -1) {
+            printf("\n");
+            perror("Error in munmap.");
+            printf("\n");
+            return;
+        }
         count++;
 
     }
@@ -207,6 +222,15 @@ Returns: MeMS Virtual address (that is created by MeMS)
 
 
 void* mems_malloc(size_t size){
+
+    if((int)size<0){
+
+        errno = EINVAL;
+        printf("\n");
+        perror("Negative or 0 memory cannot be allocated. mems_malloc().");
+        printf("\n");
+        return NULL;
+    }
 
     combine();
     static void* current_address = NULL;
@@ -306,7 +330,7 @@ void* mems_malloc(size_t size){
     if (current_address == NULL) {
         current_address = mmap(NULL, requestedMemory, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
         if (current_address == MAP_FAILED) {
-            perror("Memory allocation failed. mems_malloc error.");
+            perror("Memory allocation failed. mems_malloc error.\n");
             return NULL;
         }
         mem_start_physical = current_address;
@@ -395,8 +419,12 @@ Returns: Nothing but should print the necessary information on STDOUT
 void mems_print_stats(){
 
     combine();
+    printf("\n");
     printf("----MEMS SYSTEM STATS----\n");
-    if(mainHead == NULL){
+    if(mainHead->next == NULL){
+        errno = ENODATA;
+        perror("No memory has been allocated until now");
+        printf("\n");
         return;
     }
     MainChainNode* itr = mainHead->next;//itr is iterator which will iterate over all main chain nodes
@@ -476,6 +504,15 @@ void *mems_get(void*v_ptr){
         }
         current = current->next;
     }
+
+    if(s_ptr == NULL){
+
+        errno = EINVAL;
+        printf("\n");
+        perror("Invalid pointer argument. mems_get().");
+        printf("\n");
+        return NULL;
+    }
     return NULL;
     
 }
@@ -525,5 +562,11 @@ void mems_free(void *v_ptr){
         }
         current = current->next;
     }
+
+    errno = EINVAL;
+    printf("\n");
+    perror("Invalid pointer argument. mems_free().");
+    printf("\n");
     return;
+
 }
