@@ -56,6 +56,7 @@ int spaceUnused;
 MainChainNode* mainHead;
 void* mem_start_virtual;  
 const void* mem_start_physical;
+MainChainNode* mainHead2 = NULL;
 
 
 int lengthOfMainList(MainChainNode* head) {
@@ -131,7 +132,6 @@ void mems_init(){
 
     
     int fd = open("/dev/zero", O_RDWR);
-
     mainHead = (MainChainNode *)mmap(NULL, sizeof(MainChainNode), PROT_READ | PROT_WRITE, MAP_PRIVATE, fd, 0);
     mainHead->lowerBoundAddress = mainHead; 
     mainHead->upperBoundAddress = mainHead+sizeof(MainChainNode);
@@ -157,6 +157,7 @@ Returns: Nothing
 void mems_finish(){
 
     MainChainNode *current_node = mainHead;
+    int fd = open("/dev/zero", O_RDWR);
     int count = 0;
     while (current_node != NULL) {
 
@@ -200,8 +201,9 @@ void mems_finish(){
         count++;
 
     }
-    // munmap(mainHead, sizeof(MainChainNode));
+    munmap(mainHead, sizeof(MainChainNode));
     mainHead = NULL;
+    // mainHead2 = (MainChainNode *)mmap(NULL, sizeof(MainChainNode), PROT_READ | PROT_WRITE, MAP_PRIVATE, fd, 0);
     // printf("\nMemory has been deallocated\n");
    
 }
@@ -421,7 +423,8 @@ void mems_print_stats(){
     combine();
     printf("\n");
     printf("----MEMS SYSTEM STATS----\n");
-    if(mainHead->next == NULL){
+
+    if(mainHead == NULL || mainHead->next == NULL){
         errno = ENODATA;
         perror("No memory has been allocated until now");
         printf("\n");
