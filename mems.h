@@ -155,20 +155,39 @@ Returns: Nothing
 void mems_finish(){
 
     MainChainNode *current_node = mainHead;
+    int count = 0;
     while (current_node != NULL) {
-        // munmap((void*)current_node->lowerBoundAddress, (size_t)(current_node->upperBoundAddress-current_node->lowerBoundAddress));
+
+        if(count!=0){
+
+            // printf("jjjj\n");
+
+            void* start = current_node->lowerBoundAddress;
+            size_t len = current_node->upperBoundAddress - current_node->lowerBoundAddress;
+
+            // printf("%p\n", start);
+            // printf("%ld\n", len);
+
+            // munmap(start, len);
+
+            // printf("ssss\n");
+        }
         SubChainNode *currentsub = current_node->SubHead;
         while (currentsub != NULL) {
             SubChainNode *temp = currentsub;
             currentsub = currentsub->next;
             munmap(temp, sizeof(SubChainNode));
+            
         }
         MainChainNode *temp_node = current_node;
         current_node = current_node->next;
         munmap(temp_node, sizeof(MainChainNode));
+        count++;
+
     }
+    // munmap(mainHead, sizeof(MainChainNode));
     mainHead = NULL;
-    munmap(mainHead, sizeof(MainChainNode));
+    // printf("\nMemory has been deallocated\n");
    
 }
 
@@ -313,6 +332,7 @@ void* mems_malloc(size_t size){
     NODE->starting_virtual = mem_start_virtual;
     NODE->ending_virtual = mem_start_virtual + requestedMemory - 1;
     mem_start_virtual = mem_start_virtual + requestedMemory;
+    // NODE->memSize = ((size / PAGE_SIZE)+ 1);
 
     NODE->prev = itr;
     NODE->next = NULL;
