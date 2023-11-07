@@ -6,7 +6,7 @@ OVERVIEW
 
 The code represents the implementation of a custom memory management system (MeMS) in the C programming language. The MeMS system utilizes the system calls “mmap” and “munmap” for memory allocation and deallocation, respectively, in compliance with specific constraints and requirements. The code defines two primary data structures, namely “MainChainNode” and “SubChainNode”, which are used to manage the free list and track allocated and deallocated memory segments.
 
-FUNCTIONSANDAPPROACH
+FUNCTIONS AND APPROACH
 
 1. **void mems\_init():** Initializes all the required parameters for the MeMS system. The main parameters to be initialized are the head of the free list, called “mainHead”. The starting virtual address, 1000, is also initialized as per the given example test cases.
 1. **void mems\_finish():** This function deallocates the memory, which was allotted to make the freelist data structure by using the “munmap” system call to unmap the allocated memory. It works by iterating over the main chain of the freelist, for every node of the main chain, it iterates over the nodes of the corresponding sub chain. It thus deallocates memory allocated to every node one by one. After all the nodes of a sub chain have been deallocated, it finally deallocates the memory of the corresponding main chain and continues the process for the next main chain.
@@ -16,7 +16,7 @@ FUNCTIONSANDAPPROACH
 4. **void mems\_print\_stats():** This function provides an overview of the current statistics for the MeMS system. It prints information about the main and sub-chains, including the memory segments marked as HOLE or PROCESS. Additionally, it displays the total number of pages used and the amount of unused space in the system. The function also outputs the lengths of the main and sub-chains, offering insights into the current state of memory usage within the MeMS system.
 4. **void \*mems\_get(void\*v\_ptr):**This function retrieves the MeMS physical address mapped to the provided MeMS virtual address. It traverses the main chain and sub-chain to locate the corresponding physical address based on the virtual address input. If a matching virtual address is found, the function calculates the offset and returns the corresponding physical address. If the virtual address is not found, the function returns NULL. This function is crucial for mapping MeMS virtual addresses to their corresponding physical addresses, allowing seamless memory access within the MeMS system.
 
-HELPERFUNCTIONSANDAPPROACH
+HELPER FUNCTIONS AND APPROACH
 
 **Struct `SubChainNode`**
 
