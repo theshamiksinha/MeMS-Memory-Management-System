@@ -2,10 +2,6 @@
 All the main functions with respect to the MeMS are inplemented here
 read the function discription for more details
 
-NOTE: DO NOT CHANGE THE NAME OR SIGNATURE OF FUNCTIONS ALREADY PROVIDED
-you are only allowed to implement the functions 
-you can also make additional helper functions a you wish
-
 REFER DOCUMENTATION FOR MORE DETAILS ON FUNSTIONS AND THEIR FUNCTIONALITY
 */
 // add other headers as required
