@@ -80,3 +80,28 @@ PAGE_SIZE= 4096 Bytes
 Starting MeMS Virtual Address= 1000
 
 <img src="sample/4.png" alt="Example Output" width="800">
+
+
+### Structures
+
+#### `SubChainNode`
+- **`size`**: Size of the memory segment.
+- **`isHole`**: Boolean indicating if the segment is a hole.
+- **`next`**: Pointer to the next sub-chain node.
+- **`prev`**: Pointer to the previous sub-chain node.
+- **`lowerBoundAddress`**: Lower bound address of the memory segment.
+- **`upperBoundAddress`**: Upper bound address of the memory segment.
+- **`ending_virtual`**: Ending virtual address of the memory segment.
+- **`starting_virtual`**: Starting virtual address of the memory segment.
+- **`data`**: Additional data associated with the segment.
+
+#### `MainChainNode`
+- **`SubHead`**: Pointer to the head of the sub-chain.
+- **`memSize`**: Total memory size.
+- **`next`**: Pointer to the next main chain node.
+- **`prev`**: Pointer to the previous main chain node.
+- **`lowerBoundAddress`**: Lower bound address of the memory segment.
+- **`upperBoundAddress`**: Upper bound address of the memory segment.
+- **`data`**: Additional data associated with the segment.
+- **`ending_virtual`**: Ending virtual address of the memory segment.
+- **`starting_virtual`**: Starting virtual address of the memory segment.
