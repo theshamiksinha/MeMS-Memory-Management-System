@@ -35,18 +35,18 @@ MeMS is a custom memory management system designed to efficiently allocate and t
 ## Example
 #### Memory Mapping
 
-<img src="sample/image1.png" alt="Memory Mapping" width="400">
+<img src="sample/1.png" alt="Memory Mapping" width="400">
 
 This image illustrates how MeMS maps physical memory allocated via `mmap` into its internal structure, including main chains and sub-chains.
 
 #### Sub-Chain Segmentation
 
-<img src="sample/image2.png" alt="Sub-Chain Segmentation" width="400">
+<img src="sample/2.png" alt="Sub-Chain Segmentation" width="400">
 
 Here, you can see a detailed view of how sub-chains are segmented within MeMS, distinguishing between `PROCESS` segments and `HOLE` segments available for allocation.
 
 #### Address Translation
 
-<img src="sample/image3.png" alt="Address Translation" width="400">
+<img src="sample/3.png" alt="Address Translation" width="400">
 
 This image demonstrates the address translation process within MeMS, showing how MeMS virtual addresses used by user processes are mapped to MeMS physical addresses for actual memory operations.
