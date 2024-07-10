@@ -34,10 +34,10 @@ MeMS is a custom memory management system designed to efficiently allocate and t
 
 ## Example
 ### Memory Mapping
-![Memory Mapping](sample/image1.png)
+![Memory Mapping](sample/1.png)
 
 ### Sub-Chain Segmentation
-![Sub-Chain Segmentation](sample/image2.png)
+![Sub-Chain Segmentation](sample/2.png)
 
 ### Address Translation
-![Address Translation](sample
+![Address Translation](sample/3.png)
