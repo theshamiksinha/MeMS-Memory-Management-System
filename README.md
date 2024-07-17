@@ -53,7 +53,7 @@ This image demonstrates the address translation process within MeMS, showing how
 
 
 ---
-### How to run the exmaple.c
+### How to run the example.c
 After implementing functions in mems.h follow the below steps to run example.c file
 ```
 $ make
